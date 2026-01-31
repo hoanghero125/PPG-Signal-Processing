@@ -1,0 +1,59 @@
+BASE:
+- ''
+TOOLBOX_MODE: only_test
+TEST:
+  METRICS:
+  - MAE
+  - RMSE
+  - MAPE
+  - Pearson
+  - SNR
+  - BA
+  - AU_METRICS
+  USE_LAST_EPOCH: true
+  DATA:
+    FS: 25
+    DATASET: Custom
+    DO_PREPROCESS: true
+    DATA_FORMAT: NDCHW
+    DATA_PATH: raw_data
+    CACHED_PATH: preprocessed_data
+    EXP_DATA_NAME: BigSmall_BP4DPlus_Big144_Small9_ChunkLen3_AUSubset_rPPGToolbox
+    FOLD:
+      FOLD_NAME: Fold1_Test
+      FOLD_PATH: ./dataset/BP4D_BigSmall_Subject_Splits/Split1_Test_Subjects.csv
+    PREPROCESS:
+      USE_PSUEDO_PPG_LABEL: true
+      LABEL_TYPE: DiffNormalized
+      DO_CHUNK: true
+      CHUNK_LENGTH: 3
+      CROP_FACE:
+        DO_CROP_FACE: false
+        USE_LARGE_FACE_BOX: false
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: false
+          DYNAMIC_DETECTION_FREQUENCY: 180
+          USE_MEDIAN_FACE_BOX: false
+      BIGSMALL:
+        BIG_DATA_TYPE:
+        - Standardized
+        SMALL_DATA_TYPE:
+        - DiffNormalized
+        RESIZE:
+          BIG_H: 144
+          BIG_W: 144
+          SMALL_H: 9
+          SMALL_W: 9
+DEVICE: cuda:0
+NUM_OF_GPU_TRAIN: 2
+LOG:
+  PATH: runs/inference_BP4D_BigSmall_F1
+MODEL:
+  NAME: BigSmall
+  BIGSMALL:
+    FRAME_DEPTH: 3
+INFERENCE:
+  BATCH_SIZE: 180
+  EVALUATION_METHOD: FFT
+  MODEL_PATH: ./final_model_release/BP4D_BigSmall_Multitask_Fold1.pth

@@ -1,0 +1,65 @@
+BASE:
+- ''
+TOOLBOX_MODE: only_test
+TEST:
+  METRICS:
+  - MAE
+  - RMSE
+  - MAPE
+  - MACC
+  - Pearson
+  - SNR
+  - BA
+  USE_LAST_EPOCH: false
+  DATA:
+    FS: 30
+    DATASET: Custom
+    DO_PREPROCESS: true
+    DATA_FORMAT: NCDHW
+    DATA_PATH: raw_data
+    CACHED_PATH: preprocessed_data
+    EXP_DATA_NAME: ''
+    BEGIN: 0.0
+    END: 1.0
+    PREPROCESS:
+      DATA_TYPE:
+      - Raw
+      LABEL_TYPE: Standardized
+      DO_CHUNK: true
+      CHUNK_LENGTH: 160
+      CROP_FACE:
+        DO_CROP_FACE: true
+        BACKEND: Y5F
+        USE_LARGE_FACE_BOX: true
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: true
+          DYNAMIC_DETECTION_FREQUENCY: 30
+          USE_MEDIAN_FACE_BOX: false
+      RESIZE:
+        H: 72
+        W: 72
+DEVICE: cuda:0
+NUM_OF_GPU_TRAIN: 1
+LOG:
+  PATH: runs/inference_SCAMPS_FactorizePhys
+MODEL:
+  DROP_RATE: 0.1
+  NAME: FactorizePhys
+  FactorizePhys:
+    CHANNELS: 3
+    FRAME_NUM: 160
+    MD_FSAM: false
+    MD_TYPE: NMF
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_RESIDUAL: true
+    MD_INFERENCE: true
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: FFT
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: false
+    WINDOW_SIZE: 30
+  MODEL_PATH: ./final_model_release/SCAMPS_FactorizePhys_FSAM_Res.pth

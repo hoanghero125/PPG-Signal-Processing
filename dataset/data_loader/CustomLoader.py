@@ -70,14 +70,14 @@ class CustomLoader(BaseLoader):
         """Read PPG signal from CSV file"""
         # Read the CSV
         df = pd.read_csv(bvp_file)
-        
+
         # Use green channel (best for PPG)
         if 'green' not in df.columns:
             raise ValueError(f"'green' column not found in {bvp_file}")
-        
+
         # Extract PPG signal
         bvp_signal = df['green'].values.astype(np.float32)
-        
+
         # Handle timestamps
         if 'timestamp' in df.columns:
             timestamps = pd.to_datetime(df['timestamp'])

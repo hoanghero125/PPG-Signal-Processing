@@ -1,0 +1,15 @@
+[
+  {
+    "model": "PURE_TSCAN",
+    "config": "CUSTOM_PURE_TSCAN",
+    "status": "SUCCESS",
+    "preprocessed": true,
+    "metrics": {
+      "MAE": 13.86474609375,
+      "RMSE": 19.047390937858438,
+      "MAPE": 17.268203371521412,
+      "Pearson": 0.3396541951863455,
+      "SNR": 6.323500825632546
+    }
+  }
+]
